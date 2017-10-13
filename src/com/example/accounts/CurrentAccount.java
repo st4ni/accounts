@@ -16,8 +16,8 @@ public class CurrentAccount extends Account {
      * @param balance the balance of the CurrentAccount
      * @param details the CustomerDetails of the CurrentAccount
      */
-    public CurrentAccount(double balance, CustomerDetails details) {
-        super(balance, details);
+    public CurrentAccount(double balance, CustomerDetails details, String pin) {
+        super(balance, details, pin);
         this.overdraft = 0;
         this.maxAuthorisedOverdraft = 0;
     }
@@ -31,8 +31,8 @@ public class CurrentAccount extends Account {
      * @param overdraft the current overdraft of the CurrentAccount
      * @param maxAuthorisedOverdraft the maximum authorised overdraft of the current account
      */
-    public CurrentAccount(double balance, CustomerDetails details, double overdraft, double maxAuthorisedOverdraft) {
-        super(balance, details);
+    public CurrentAccount(double balance, CustomerDetails details, String pin, double overdraft, double maxAuthorisedOverdraft) {
+        super(balance, details, pin);
         this.overdraft = overdraft;
         this.maxAuthorisedOverdraft = maxAuthorisedOverdraft;
     }
@@ -70,14 +70,34 @@ public class CurrentAccount extends Account {
     }
 
     /**
+     * Overrides the Account withdraw method so that this CurrentAccounts overdraft
+     * is taken into account.
+     *
+     * @param amount the amount to withdraw
+     * @return true if the withdrawal is successful and false otherwise
+     */
+    @Override
+    public boolean withdraw(double amount) {
+        boolean success = false;
+        if (amount <= this.getBalance() + this.getOverdraft() && amount >= 0) {
+            this.setBalance(this.getBalance() + amount);
+            if (super.withdraw(amount)) {
+                success = true;
+            }
+            this.setBalance(this.getBalance() - amount);
+        }
+        return success;
+    }
+
+    /**
      * Increases the overdraft by the argument if the total overdraft remains below the
      * maximum authorised overdraft.
      * @param amount requested increase in overdraft
      * @return true if overdraft is increased, false otherwise.
      */
     public boolean increaseOverdraft(double amount) {
-        double newOverdraftRequested = this.overdraft + amount;
-        if (newOverdraftRequested <= this.maxAuthorisedOverdraft) {
+        double newOverdraftRequested = this.getOverdraft() + amount;
+        if (newOverdraftRequested <= this.getMaxAuthorisedOverdraft()) {
             this.setOverdraft(this.getOverdraft() + amount);
             return true;
         }
@@ -95,7 +115,7 @@ public class CurrentAccount extends Account {
         if (amount < 0) {
             return false;
         }
-        if (amount <= this.overdraft) {
+        if (amount <= this.getOverdraft()) {
             this.setOverdraft(this.getOverdraft() - amount);
             return true;
         }

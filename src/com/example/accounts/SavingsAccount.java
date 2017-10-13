@@ -15,8 +15,8 @@ public class SavingsAccount extends Account {
      * @param details the customer details
      * @param interestRate
      */
-    public SavingsAccount(double balance, CustomerDetails details, double interestRate) {
-        super(balance, details);
+    public SavingsAccount(double balance, CustomerDetails details, String pin, double interestRate) {
+        super(balance, details, pin);
         this.interestRate = interestRate;
     }
 

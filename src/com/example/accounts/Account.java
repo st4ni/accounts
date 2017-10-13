@@ -1,12 +1,16 @@
+// import java.io.*;
 package com.example.accounts;
 
+import java.util.*;
+import java.io.*;
 /**
  * Abstract class Account represents a bank account
  */
-public abstract class Account {
+public abstract class Account implements Security {
 
     private double balance;
     private CustomerDetails details;
+    private String pin;
 
     /**
      * Constructor for class Account which takes 2 paramaters, balance which is a double and details
@@ -15,9 +19,10 @@ public abstract class Account {
      * @param balance the balance of the account
      * @param details the customer details of the account holder
      */
-    public Account(double balance, CustomerDetails details) {
+    public Account(double balance, CustomerDetails details, String pin) {
         this.balance = balance;
         this.details = details;
+        this.pin = pin;
     }
 
     /**
@@ -53,15 +58,32 @@ public abstract class Account {
     }
 
     /**
-     * Transfers anAmount from the accounts balance to anAccount's balance.
-     * @param anAmount the amount to be transfered from the account to anAccount
+     *
+     * @return this accounts pin.
+     */
+    public String getPin() {
+        return pin;
+    }
+
+    /**
+     * Sets this accounts pin
+     * @param pin this accounts pin
+     */
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    /**
+     * Withdraws anAmount from this accounts balance and deposits it into anAccount
+     * if the withdrawal was successful.
+     * @param anAmount the amount to be transfered from this account to anAccount
      * @param anAccount the account to be credited
      * @return true if the transfer is successful and false if there are insufficent funds
+     * in this account.
      */
     public boolean transfer(double anAmount, Account anAccount) {
-        if (this.getBalance() >= anAmount) {
-            this.setBalance(this.getBalance() - anAmount);
-            anAccount.setBalance(anAccount.getBalance() + anAmount);
+        if (this.withdraw(anAmount)) {
+            anAccount.deposit(anAmount);
             return true;
         }
         return false;
@@ -73,7 +95,7 @@ public abstract class Account {
      * @return true if the withdrawal is successful and false if there are insufficent funds.
      */
     public boolean withdraw(double anAmount) {
-        if (this.getBalance() >= anAmount) {
+        if (this.authorised() && this.getBalance() >= anAmount && anAmount >= 0) {
             this.setBalance(this.getBalance() - anAmount);
             return true;
         }
@@ -95,14 +117,50 @@ public abstract class Account {
                 "07711082689", "00001");
         CustomerDetails john = new CustomerDetails("John","Barns", "11 Downing Street",
                 "07978098780", "00002");
-        CurrentAccount petersCurrentAccount = new CurrentAccount(90000, peter, 10000, 20000);
-        SavingsAccount johnsSavingsAccount = new SavingsAccount(200000, john, 5);
+        CurrentAccount petersCurrentAccount = new CurrentAccount(90000, peter, "9638", 10000, 20000);
+        SavingsAccount johnsSavingsAccount = new SavingsAccount(200000, john, "0123", 5);
         johnsSavingsAccount.transfer(50000, petersCurrentAccount);
         petersCurrentAccount.deposit(800000);
         System.out.println(johnsSavingsAccount.getBalance());
         System.out.println(petersCurrentAccount.getBalance());
         System.out.println(petersCurrentAccount.increaseOverdraft(9000));
         System.out.println(petersCurrentAccount.increaseOverdraft(2000));
+        petersCurrentAccount.transfer(85000, johnsSavingsAccount);
+        System.out.println(johnsSavingsAccount.getBalance());
+        System.out.println(petersCurrentAccount.getBalance());
+        System.out.println(petersCurrentAccount.transfer(5000, johnsSavingsAccount));
+        System.out.println(johnsSavingsAccount.getBalance());
+        System.out.println(petersCurrentAccount.getBalance());
+
     }
 
+    /**
+     * Requests a pin to be entered in the standard input and compares with this accounts pin
+     * @return true if pin matches within 3 attempts, otherwise false
+     */
+    public boolean authorised() {
+        boolean correctPinEntered = false;
+        int tries = 0;
+        while (!correctPinEntered && tries < 3) {
+            System.out.print(this.getDetails().getFirstName() + " enter your pin: ");
+            Scanner scanner = new Scanner(System.in);
+            String pinEntered = scanner.nextLine();
+            if (pinEntered.equals(this.pin)) {
+                correctPinEntered = true;
+                System.out.println("Your pin is " + pinEntered + "! shhhhhhh don't tell anyone!!");
+            } else {
+                correctPinEntered = false;
+                System.out.print("Your pin is not " + pinEntered);
+            }
+            tries++;
+            if (!correctPinEntered && tries < 3) {
+                System.out.println(" try again!");
+            }
+            else {
+                System.out.println();
+                System.out.println("You've had three tries so go away!!");
+            }
+        }
+        return correctPinEntered;
+    }
 }
