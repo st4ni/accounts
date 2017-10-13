@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a1936d86-1acc-4c0c-9759-57f0d4d59b16" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Accounts/com/example/accounts/Account.class" afterPath="$PROJECT_DIR$/out/production/Accounts/com/example/accounts/Account.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Accounts/com/example/accounts/SavingsAccount.class" afterPath="$PROJECT_DIR$/out/production/Accounts/com/example/accounts/SavingsAccount.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/accounts/Account.java" afterPath="$PROJECT_DIR$/src/com/example/accounts/Account.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/accounts/CurrentAccount.java" afterPath="$PROJECT_DIR$/src/com/example/accounts/CurrentAccount.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/accounts/CustomerDetails.java" afterPath="$PROJECT_DIR$/src/com/example/accounts/CustomerDetails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/accounts/SavingsAccount.java" afterPath="$PROJECT_DIR$/src/com/example/accounts/SavingsAccount.java" />
-    </list>
+    <list default="true" id="a1936d86-1acc-4c0c-9759-57f0d4d59b16" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
