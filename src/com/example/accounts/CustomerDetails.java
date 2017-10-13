@@ -9,6 +9,7 @@ public class CustomerDetails {
     private String surname;
     private String address;
     private String phoneNumber;
+    private String dateOfBirth;
     private String accountNumber;
 
     /**
@@ -17,13 +18,15 @@ public class CustomerDetails {
      * @param surname
      * @param address
      * @param phoneNumber
+     * @param dateOfBirth
      * @param accountNumber
      */
-    public CustomerDetails(String firstName, String surname, String address, String phoneNumber, String accountNumber) {
+    public CustomerDetails(String firstName, String surname, String address, String phoneNumber, String dateOfBirth, String accountNumber) {
         this.firstName = firstName;
         this.surname = surname;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
         this.accountNumber = accountNumber;
     }
 
@@ -89,6 +92,14 @@ public class CustomerDetails {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     /**

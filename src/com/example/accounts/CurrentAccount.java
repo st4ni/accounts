@@ -1,13 +1,16 @@
 package com.example.accounts;
 
+import java.util.Scanner;
+
 /**
  * Subclass of Account but with a flexible overdraft facility which has a
  * maxAuthorisedOverdraft.
  */
-public class CurrentAccount extends Account {
+public class CurrentAccount extends Account implements Security{
 
     private double overdraft;
     private double maxAuthorisedOverdraft;
+    private String pin;
 
     /**
      * Constructor for the CurrentAccount class which inherits the balance and
@@ -17,7 +20,7 @@ public class CurrentAccount extends Account {
      * @param details the CustomerDetails of the CurrentAccount
      */
     public CurrentAccount(double balance, CustomerDetails details, String pin) {
-        super(balance, details, pin);
+        super(balance, details);
         this.overdraft = 0;
         this.maxAuthorisedOverdraft = 0;
     }
@@ -26,15 +29,17 @@ public class CurrentAccount extends Account {
      * Constructor for the CurrentAccount class which inherits the balance and
      * CustomerDetails from its super class, the Account class. It has 2 extra
      * instance variables, overdraft and maxAuthorisedOverdraft.
+     *
      * @param balance the balance of the CurrentAccount
      * @param details the CustomerDetails of the CurrentAccount
      * @param overdraft the current overdraft of the CurrentAccount
      * @param maxAuthorisedOverdraft the maximum authorised overdraft of the current account
      */
     public CurrentAccount(double balance, CustomerDetails details, String pin, double overdraft, double maxAuthorisedOverdraft) {
-        super(balance, details, pin);
+        super(balance, details);
         this.overdraft = overdraft;
         this.maxAuthorisedOverdraft = maxAuthorisedOverdraft;
+        this.pin = pin;
     }
 
     /**
@@ -70,6 +75,22 @@ public class CurrentAccount extends Account {
     }
 
     /**
+     *
+     * @return this accounts pin.
+     */
+    public String getPin() {
+        return pin;
+    }
+
+    /**
+     * Sets this accounts pin
+     * @param pin this accounts pin
+     */
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    /**
      * Overrides the Account withdraw method so that this CurrentAccounts overdraft
      * is taken into account.
      *
@@ -79,7 +100,7 @@ public class CurrentAccount extends Account {
     @Override
     public boolean withdraw(double amount) {
         boolean success = false;
-        if (amount <= this.getBalance() + this.getOverdraft() && amount >= 0) {
+        if (this.authorised() && amount <= this.getBalance() + this.getOverdraft() && amount >= 0) {
             this.setBalance(this.getBalance() + amount);
             if (super.withdraw(amount)) {
                 success = true;
@@ -120,5 +141,35 @@ public class CurrentAccount extends Account {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Requests a pin to be entered in the standard input and compares with this accounts pin
+     * @return true if pin matches within 3 attempts, otherwise false
+     */
+    public boolean authorised() {
+        boolean correctPinEntered = false;
+        int tries = 0;
+        while (!correctPinEntered && tries < 3) {
+            System.out.print(this.getDetails().getFirstName() + " enter your pin: ");
+            Scanner scanner = new Scanner(System.in);
+            String pinEntered = scanner.nextLine();
+            if (pinEntered.equals(this.pin)) {
+                correctPinEntered = true;
+                System.out.println("Your pin is " + pinEntered + "! shhhhhhh don't tell anyone!!");
+            } else {
+                correctPinEntered = false;
+                System.out.print("Your pin is not " + pinEntered);
+            }
+            tries++;
+            if (!correctPinEntered && tries < 3) {
+                System.out.println(" try again!");
+            }
+            else if (!correctPinEntered && tries >= 3){
+                System.out.println();
+                System.out.println("You've had three tries so go away!!");
+            }
+        }
+        return correctPinEntered;
     }
 }

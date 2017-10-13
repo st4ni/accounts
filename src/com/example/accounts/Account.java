@@ -1,16 +1,15 @@
-// import java.io.*;
 package com.example.accounts;
 
-import java.util.*;
-import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Abstract class Account represents a bank account
  */
-public abstract class Account implements Security {
+public abstract class Account{
 
     private double balance;
     private CustomerDetails details;
-    private String pin;
 
     /**
      * Constructor for class Account which takes 2 paramaters, balance which is a double and details
@@ -19,10 +18,9 @@ public abstract class Account implements Security {
      * @param balance the balance of the account
      * @param details the customer details of the account holder
      */
-    public Account(double balance, CustomerDetails details, String pin) {
+    public Account(double balance, CustomerDetails details) {
         this.balance = balance;
         this.details = details;
-        this.pin = pin;
     }
 
     /**
@@ -58,22 +56,6 @@ public abstract class Account implements Security {
     }
 
     /**
-     *
-     * @return this accounts pin.
-     */
-    public String getPin() {
-        return pin;
-    }
-
-    /**
-     * Sets this accounts pin
-     * @param pin this accounts pin
-     */
-    public void setPin(String pin) {
-        this.pin = pin;
-    }
-
-    /**
      * Withdraws anAmount from this accounts balance and deposits it into anAccount
      * if the withdrawal was successful.
      * @param anAmount the amount to be transfered from this account to anAccount
@@ -95,7 +77,7 @@ public abstract class Account implements Security {
      * @return true if the withdrawal is successful and false if there are insufficent funds.
      */
     public boolean withdraw(double anAmount) {
-        if (this.authorised() && this.getBalance() >= anAmount && anAmount >= 0) {
+        if (this.getBalance() >= anAmount && anAmount >= 0) {
             this.setBalance(this.getBalance() - anAmount);
             return true;
         }
@@ -112,13 +94,16 @@ public abstract class Account implements Security {
         }
     }
 
+
+
+
     public static void main(String[] args) {
         CustomerDetails peter = new CustomerDetails("Peter", "Smith", "10 Downing Street",
-                "07711082689", "00001");
+                "07711082689", "01/01/2000", "00001");
         CustomerDetails john = new CustomerDetails("John","Barns", "11 Downing Street",
-                "07978098780", "00002");
+                "07978098780", "25/12/2000", "00002");
         CurrentAccount petersCurrentAccount = new CurrentAccount(90000, peter, "9638", 10000, 20000);
-        SavingsAccount johnsSavingsAccount = new SavingsAccount(200000, john, "0123", 5);
+        SavingsAccount johnsSavingsAccount = new SavingsAccount(200000, john,  5);
         johnsSavingsAccount.transfer(50000, petersCurrentAccount);
         petersCurrentAccount.deposit(800000);
         System.out.println(johnsSavingsAccount.getBalance());
@@ -132,35 +117,5 @@ public abstract class Account implements Security {
         System.out.println(johnsSavingsAccount.getBalance());
         System.out.println(petersCurrentAccount.getBalance());
 
-    }
-
-    /**
-     * Requests a pin to be entered in the standard input and compares with this accounts pin
-     * @return true if pin matches within 3 attempts, otherwise false
-     */
-    public boolean authorised() {
-        boolean correctPinEntered = false;
-        int tries = 0;
-        while (!correctPinEntered && tries < 3) {
-            System.out.print(this.getDetails().getFirstName() + " enter your pin: ");
-            Scanner scanner = new Scanner(System.in);
-            String pinEntered = scanner.nextLine();
-            if (pinEntered.equals(this.pin)) {
-                correctPinEntered = true;
-                System.out.println("Your pin is " + pinEntered + "! shhhhhhh don't tell anyone!!");
-            } else {
-                correctPinEntered = false;
-                System.out.print("Your pin is not " + pinEntered);
-            }
-            tries++;
-            if (!correctPinEntered && tries < 3) {
-                System.out.println(" try again!");
-            }
-            else {
-                System.out.println();
-                System.out.println("You've had three tries so go away!!");
-            }
-        }
-        return correctPinEntered;
     }
 }
