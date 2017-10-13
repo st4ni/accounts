@@ -28,80 +28,80 @@ public class CustomerDetails {
     }
 
     /**
-     * Returns the first name of the customer
-     * @return
+     *
+     * @return the first name of the customer
      */
     public String getFirstName() {
         return firstName;
     }
 
     /**
-     * Sets the firstName of the instance to that of the argument.
-     * @param firstName
+     * Sets the firstName.
+     * @param firstName first name of customer
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /**
-     * Returns the first Surname of the customer
-     * @return
+     *
+     * @return the surname of the customer
      */
     public String getSurname() {
         return surname;
     }
 
     /**
-     * Sets the Surame of the instance to that of the argument.
-     * @param surname
+     * Sets the surame of the customer.
+     * @param surname the surname of the customer.
      */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
     /**
-     * Returns the address of the customer
-     * @return
+     *
+     * @return the address of the customer
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * Sets the address of the instance to that of the argument.
-     * @param address
+     * Sets the address of the customer.
+     * @param address the address of the customer
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
     /**
-     * Returns the phone number of the customer
-     * @return
+     *
+     * @return the phone number of the customer
      */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     /**
-     * Sets the phoneNumber of the instance to that of the argument.
-     * @param phoneNumber
+     * Sets the phoneNumber of the customer.
+     * @param phoneNumber the phone number of the customer.
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
     /**
-     * Returns the accountNumber of the customer
-     * @return
+     *
+     * @return the accountNumber of the customer
      */
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
-     * Sets the accountNumber of the instance to that of the argument.
-     * @param accountNumber
+     * Sets the accountNumber of the customer.
+     * @param accountNumber the account number of the customer
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;

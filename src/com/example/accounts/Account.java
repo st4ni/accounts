@@ -1,9 +1,9 @@
 package com.example.accounts;
 
 /**
- * Class account represents a bank account
+ * Abstract class Account represents a bank account
  */
-public class Account {
+public abstract class Account {
 
     private double balance;
     private CustomerDetails details;
@@ -12,8 +12,8 @@ public class Account {
      * Constructor for class Account which takes 2 paramaters, balance which is a double and details
      * which is an object of class CustomerDetails
      *
-     * @param balance
-     * @param details
+     * @param balance the balance of the account
+     * @param details the customer details of the account holder
      */
     public Account(double balance, CustomerDetails details) {
         this.balance = balance;
@@ -21,44 +21,42 @@ public class Account {
     }
 
     /**
-     * Returns the balance of the instance
-     * @return
+     *
+     * @return the balance of the account
      */
     public double getBalance() {
         return balance;
     }
 
     /**
-     * Sets the balance of the instance
-     * @param balance
+     * Sets the balance of the account
+     * @param balance the balance of the account
      */
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
     /**
-     * Returns the customers details as an object of class CustomerDetails
-     * @return
+     *
+     * @return the customers details as an object of class CustomerDetails
      */
     public CustomerDetails getDetails() {
         return details;
     }
 
     /**
-     * Sets the customer details as an object of class CustomerDetails which is
-     * the only parameter
-     * @param details
+     * Sets the customer details of the account.
+     * @param details an object of class CustomerDetails
      */
     public void setDetails(CustomerDetails details) {
         this.details = details;
     }
 
     /**
-     * Transfers anAmount from the instances balance to anAccount's balance. Returns
-     * True if successful and false if there are insufficent funds
-     * @param anAmount
-     * @param anAccount
-     * @return
+     * Transfers anAmount from the accounts balance to anAccount's balance.
+     * @param anAmount the amount to be transfered from the account to anAccount
+     * @param anAccount the account to be credited
+     * @return true if the transfer is successful and false if there are insufficent funds
      */
     public boolean transfer(double anAmount, Account anAccount) {
         if (this.getBalance() >= anAmount) {
@@ -70,10 +68,9 @@ public class Account {
     }
 
     /**
-     * Withdraws anAmount from the instances balance. Returns
-     * true if successful and false if there are insufficent funds.
-     * @param anAmount
-     * @return
+     * Withdraws anAmount from this account balance.
+     * @param anAmount the amount to be withdrawn from this account
+     * @return true if the withdrawal is successful and false if there are insufficent funds.
      */
     public boolean withdraw(double anAmount) {
         if (this.getBalance() >= anAmount) {
@@ -84,8 +81,8 @@ public class Account {
     }
 
     /**
-     * Deposits anAmount into the instances balance as long as it is positive.
-     * @param anAmount
+     * Deposits anAmount into this accounts balance as long as it is positive.
+     * @param anAmount the amount to be deposited into this account.
      */
     public void deposit(double anAmount) {
         if (anAmount >= 0) {
@@ -101,9 +98,11 @@ public class Account {
         CurrentAccount petersCurrentAccount = new CurrentAccount(90000, peter, 10000, 20000);
         SavingsAccount johnsSavingsAccount = new SavingsAccount(200000, john, 5);
         johnsSavingsAccount.transfer(50000, petersCurrentAccount);
+        petersCurrentAccount.deposit(800000);
         System.out.println(johnsSavingsAccount.getBalance());
         System.out.println(petersCurrentAccount.getBalance());
-
+        System.out.println(petersCurrentAccount.increaseOverdraft(9000));
+        System.out.println(petersCurrentAccount.increaseOverdraft(2000));
     }
 
 }
